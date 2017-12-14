@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  subscriber_id: 1
+  notifi_user_id: 1
+  action: MyString
+  message: MyString
+
+two:
+  subscriber_id: 1
+  notifi_user_id: 1
+  action: MyString
+  message: MyString

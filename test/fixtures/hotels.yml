@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: 
+  address: 
+  phone: 
+  description: MyText
+  star: 
+  rate_sum: 1.5
+  rate_count: 
+  avatar: 
+  max_price: 1.5
+  min_price: 1.5
+
+two:
+  name: 
+  address: 
+  phone: 
+  description: MyText
+  star: 
+  rate_sum: 1.5
+  rate_count: 
+  avatar: 
+  max_price: 1.5
+  min_price: 1.5
