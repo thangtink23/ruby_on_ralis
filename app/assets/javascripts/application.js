@@ -13,3 +13,22 @@
 //= require rails-ujs
 //= require turbolinks
 //= require_tree .
+Vue.use(VeeValidate);
+Vue.use(VueMaterial);
+Vue.material.registerTheme({
+    default: {
+        primary: 'blue',
+        accent: 'red',
+        warn: 'orange',
+        background: 'white',
+    },
+    yellow: {
+        primary: 'yellow',
+    },
+});
+
+$(function () {
+    let token = document.getElementsByName('csrf-token')[0].getAttribute('content');
+    axios.defaults.headers.common['X-CSRF-Token'] = token;
+    axios.defaults.headers.common['Accept'] = 'application/json';
+});
