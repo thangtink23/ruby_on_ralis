@@ -1,0 +1,7 @@
+<%= form_for(current_user.active_relationships.build, remote: true) do |f| %>
+  <div><%= hidden_field_tag :followed_id, @user.id %></div>
+    <button class="button button--primary button--withChrome", style="width: 120px; margin-bottom: 10px">
+      Follow
+    </button>
+<% end %>
+
