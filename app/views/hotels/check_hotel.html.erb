@@ -77,12 +77,12 @@
       <table id="customers">
         <tr>
           <th width="180px">アバター</th>
-          <th>情報</th>
-          <th width="400px">説明</th>
-          <th width="120px">状態</th>
+          <th>Information</th>
+          <th width="400px">Description</th>
+          <th width="120px">Status</th>
           <% if user_signed_in? %>
               <% if current_user.admin? %>
-                  <th>アクション</th>
+                  <th>Action</th>
               <% end %>
           <% end %>
         </tr>
@@ -91,7 +91,7 @@
         <% end %>
       </table>
   <% else %>
-      <div>提案したホテルがない</div>
+      <div>There is no proposed hotel</div>
   <% end %>
 </div>
 

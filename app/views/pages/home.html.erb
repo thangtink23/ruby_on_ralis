@@ -7,7 +7,7 @@
   <div class="container-home">
 
     <div style="margin-bottom: 22px;">
-      <span style="color: #FF8040; font-size: 22px;">新しいレビュー</span>
+      <span style="color: #FF8040; font-size: 22px;">New review</span>
     </div>
     <% @new_reviews  = Review.where(hotel_id: @hotels.each do |hotel| hotel.id end).order(created_at: :desc).limit(6)%>
     <div class="new-reivew-home">
@@ -21,7 +21,7 @@
     <div class="reivew-top-review">
       <div class="follow-review-home">
         <div style="margin-bottom: 22px">
-          <span style="color: #FF8040; font-size: 22px;">ニューフィード</span>
+          <span style="color: #FF8040; font-size: 22px;">New feed</span>
         </div>
         <% if user_signed_in? %>
         <% @users = current_user.following %>
@@ -54,8 +54,8 @@
       <% @hotels_order_rate = Hotel.where(status: "accept").order(rate_sum: :desc ).limit(10) %>
       <!-- <p>Top Hotel</p> -->
       <div class="tab">
-        <button class="tablinks" onclick="openCity(event, 'top-hotel-home')" id="defaultOpen" style="font-size: 15px">トップホテル</button>
-        <button class="tablinks" onclick="openCity(event, 'top-review-home')" style="font-size: 15px;">トップレビュー</button>
+        <button class="tablinks" onclick="openCity(event, 'top-hotel-home')" id="defaultOpen" style="font-size: 15px">Top Hotel</button>
+        <button class="tablinks" onclick="openCity(event, 'top-review-home')" style="font-size: 15px;">Top Review</button>
       </div>
 
       <div class="top-hotel-home tabcontent" id="top-hotel-home">
