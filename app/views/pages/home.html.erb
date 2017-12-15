@@ -1,0 +1,114 @@
+<body>
+  <% @hotels = Hotel.where(status: 'accept') %>
+
+
+
+
+  <div class="container-home">
+
+    <div style="margin-bottom: 22px;">
+      <span style="color: #FF8040; font-size: 22px;">新しいレビュー</span>
+    </div>
+    <% @new_reviews  = Review.where(hotel_id: @hotels.each do |hotel| hotel.id end).order(created_at: :desc).limit(6)%>
+    <div class="new-reivew-home">
+      <div class="review-autoplay">
+        <% @new_reviews.each do |review| %>
+        <%= render 'review_top_bar', review: review %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="reivew-top-review">
+      <div class="follow-review-home">
+        <div style="margin-bottom: 22px">
+          <span style="color: #FF8040; font-size: 22px;">ニューフィード</span>
+        </div>
+        <% if user_signed_in? %>
+        <% @users = current_user.following %>
+        <% @reviews = Review.where(:user_id => @users.each do |user|
+          user.id
+        end).order(created_at: :desc)
+        %>
+        <% if @reviews.any? %>
+
+        <% @reviews.each do |review| %>
+          <% if review.hotel.status == 'accept' %>
+          <%= render 'review_right_bar', review: review %>
+          <% end %>
+        <% end %>
+        <% end %>
+        <% else %>
+        <% @reviews = Review.where(hotel_id: @hotels.each do |hotel| hotel.id end).order(created_at: :desc) %>
+        <% if @reviews.any? %>
+        <% @reviews.each do |review| %>
+        <% if review.hotel.status == 'accept' %>
+        <%= render 'review_right_bar', review: review %>
+        <% end %>
+        <% end %>
+        <% end %>
+        <% end %>
+
+
+      </div>
+
+      <% @hotels_order_rate = Hotel.where(status: "accept").order(rate_sum: :desc ).limit(10) %>
+      <!-- <p>Top Hotel</p> -->
+      <div class="tab">
+        <button class="tablinks" onclick="openCity(event, 'top-hotel-home')" id="defaultOpen" style="font-size: 15px">トップホテル</button>
+        <button class="tablinks" onclick="openCity(event, 'top-review-home')" style="font-size: 15px;">トップレビュー</button>
+      </div>
+
+      <div class="top-hotel-home tabcontent" id="top-hotel-home">
+        <% @hotels_order_rate.each do |hotel| %>
+        <%= render "hotel_left_bar", hotel: hotel %>
+        <% end %>
+
+      </div>
+      <% @hotels_stt_accept = Hotel.where(status: 'accept') %>
+      <% @top_review = Review.where(hotel_id: @hotels_stt_accept.each do |hotel| hotel.id end).order(like_count: :desc ).limit(10) %>
+      <div class="top-review-home tabcontent" id="top-review-home">
+        <% @top_review.each do |review| %>
+        <%= render "review_left_bar", review: review %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</body>
+
+<!-- <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script> -->
+<!-- <script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script> -->
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script> -->
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.review-autoplay').slick({
+      slidesToShow: 4,
+      slidesToScroll: 1,
+      autoplay: true,
+      autoplaySpeed: 2000,
+      dots: true,
+    });
+  });
+</script>
+
+<script>
+  function openCity(evt, cityName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
+
+
+

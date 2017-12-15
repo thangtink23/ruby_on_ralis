@@ -1,0 +1,49 @@
+<% create_at = bookmark.created_at.to_time %>
+<% raw_content = ActionView::Base.full_sanitizer.sanitize(bookmark.content).strip %>
+<% raw_content = raw_content.truncate(120, separator: ' ') %>
+<% avatar = bookmark.user.avatar.url ? bookmark.user.avatar.url : '/no_avatar.jpg' %>
+
+<div class="u-borderBox u-size6of12  u-paddingRight10 u-xs-paddingLeft0 u-xs-paddingRight0 u-xs-size12of12 js-trackedPost js-sectionItem" data-source="grid_home---8------0-50----------22d054b693da-----800691088" data-post-id="2b06b7f0bc8d" data-index="0" data-action-scope="_actionscope_18" data-scroll="native">
+  <div class="u-flex u-sizeFullWidth u-height260 u-sm-flexWrap u-xs-heightAuto u-borderBox u-marginBottom20 u-backgroundColorWhite u-overflowHidden u-relative u-borderRadius2 u-borderBlackLightest">
+    <div class="u-flex0 u-sizeFullHeight u-width200 u-sm-height100 u-sm-sizeFullWidth u-xs-height170">
+      <% if bookmark.image.blank? %>
+          <a href="/bookmarks/<%= bookmark.id %>" class="u-block u-backgroundSizeCover u-backgroundOriginBorderBox u-backgroundColorGrayLight u-sizeFullHeight" style="background-image: url('assets/bookmark_hotel2.jpg'); background-position: 50% 50% !important;"></a>
+      <% else %>
+          <a href="/bookmarks/<%= bookmark.id %>" class="u-block u-backgroundSizeCover u-backgroundOriginBorderBox u-backgroundColorGrayLight u-sizeFullHeight" style="background-image: url(<%= raw bookmark.image %>); background-position: 50% 50% !important;"></a>
+      <% end %>
+    </div>
+    <div class="u-borderBox u-flexColumn u-padding20 u-flex1 u-overflowHidden u-sizeFull u-sm-height160 u-xs-heightAuto">
+      <div class="u-flex1 u-relative">
+        <div class="u-flexColumnTop u-flexWrap u-overflowHidden u-absolute0 u-xs-relative">
+          <div class="u-flex0 u-sizeFullWidth">
+            <a class="" href="/bookmarks/<%= bookmark.id %>">
+              <h3 class="u-contentSansBold u-lineHeightTight u-fontSize18 u-sm-lineClamp2 u-sm-maxHeight2LineHeightTight">
+                <%= ActionView::Base.full_sanitizer.sanitize(bookmark.title).truncate(80, separator: ' ') %>
+              </h3></a></div>
+          <a class="" href="/bookmarks/<%= bookmark.id %>">
+            <h4 class="u-uiTextRegular u-textColorNormal u-marginTop5 u-letterSpacingNormal u-lineClamp3 u-maxHeight3LineHeightBase u-textOverflowEllipsis u-fontSize14">
+              <%= raw_content %>
+            </h4>
+          </a>
+        </div>
+      </div>
+      <div class="u-flex u-paddingTop10 u-flex0">
+        <div class="u-flex0 u-paddingRight10">
+          <a class="link avatar u-baseColor--link" href="/user/<%= bookmark.user.id%>">
+            <img src="<%= avatar %>" class="avatar-image avatar-image--smaller u-size50x50">
+          </a>
+        </div>
+        <div class="u-flex1 u-noWrapWithEllipsis u-xs-paddingTop5">
+          <div class="postMetaInline postMetaInline-authorLockup u-paddingLeft0 u-noWrapWithEllipsis">
+            <a class="link u-textColorDarker u-fontSize12 u-baseColor--link" href="/user/<%= bookmark.user.id%>">
+              <%= bookmark.user.name.titleize %>
+            </a>
+          </div>
+          <div class="u-fontSize12 u-textColorNormal u-lineHeightTight u-noWrapWithEllipsis u-paddingTop2">
+            <time><%= create_at.strftime("%Y年%m月%d日") %></time>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

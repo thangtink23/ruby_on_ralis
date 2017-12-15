@@ -1,0 +1,18 @@
+<div class="all-review">
+  <section class="u-borderBox u-maxWidth1000 u-marginAuto u-marginTop30 u-marginBottom40 u-clearfix u-sm-paddingLeft20 u-sm-paddingRight20 u-xs-marginTop15 js-trackedTopic" data-scroll="native">
+    <header class="u-flexTop u-marginBottom25 u-borderBottomLighter js-topicSuggestionHeading">
+    <span class="heading-title
+          heading-title--lineHeightTight
+          u-flex0 u-block u-paddingBottom20
+          u-uiDisplayBold u-fontSize20
+          u-textColorDarker u-borderBottomNormal
+          u-marginBottomNegative1 u-xs-fontSize18">
+        ブックマーク
+    </span>
+    </header>
+    <% if @bookmarks.any? %>
+        <%= render @bookmarks %>
+
+    <% end %>
+  </section>
+</div>
