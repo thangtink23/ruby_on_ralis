@@ -1,0 +1,136 @@
+<div id="container-show-hotel">
+  <div id="container-avatar-rate">
+    <div id="avatar-show-hotel">
+      <%= image_tag @hotel.avatar.url %>
+    </div>
+    <div id="title-description-hotel">
+      <h1><%= @hotel.name %></h1>
+      <div id="address-phone"><span>アドレス:</span> <%= @hotel.address %></div>
+      <div id="address-phone"><span>電話番号:</span> +<%= @hotel.phone %></div>
+      <div id="address-phone"><span>値段:</span> <%= @hotel.min_price%>円 - <%= @hotel.max_price%>円</div>
+      <div class="star-hotel">
+        <span style="color: red; font-style: bold; margin-right: 5px;">スター: </span>
+        <% for i in 0...5 %>
+            <% if i<@hotel.star %>
+                <i class="fa fa-star fa-star-yellow"></i>
+            <% else %>
+                <i class="fa fa-star"></i>
+            <% end %>
+        <% end %>
+      </div>
+      <div id="description-hotel">
+        <p><%= @hotel.description %></p>
+      </div>
+    </div>
+  </div>
+  <div id="rate-show-hotel">
+    <div id="rate-avg-hotel">
+      <p style="text-align: center; font-size: 15pt;">レートの平均</p>
+      <p id="rate-sum"><%= @hotel.avg_rate %>/5 </p>
+      <p id="rate-count"><i class="fa fa-user"></i> レートのサム: <%= @hotel.total_rate %></p>
+    </div>
+    <div id="rate-detail-hotel">
+      <ul>
+        <li>
+          <span> 5 </span>
+          <i class="fa fa-star" aria-hidden="true"></i>
+          <% if (@hotel.rate_five_per).to_i==0 %>
+              <div class="bar bar-5">
+                <p>0%</p>
+              </div>
+          <% else %>
+              <div class="bar bar-5" style="width: <%= @hotel.rate_five_per %>%;">
+                <p><%= (@hotel.rate_five_per*1.25).to_i %>%</p>
+              </div>
+          <% end %>
+          <div class="clearfix"></div>
+        </li>
+
+        <li>
+          <span> 4 </span>
+          <i class="fa fa-star" aria-hidden="true"></i>
+          <% if @hotel.rate_four_per.to_i==0 %>
+              <div class="bar bar-4">
+                <p>0%</p>
+              </div>
+          <% else %>
+              <div class="bar bar-4" style="width: <%= @hotel.rate_four_per %>%;">
+                <p><%= (@hotel.rate_four_per*1.25).to_i %>%</p>
+              </div>
+          <% end %>
+          <div class="clearfix"></div>
+        </li>
+        <li>
+          <span> 3 </span>
+          <i class="fa fa-star" aria-hidden="true"></i>
+          <% if @hotel.rate_three_per.to_i==0 %>
+              <div class="bar bar-3">
+                <p>0%</p>
+              </div>
+          <% else %>
+              <div class="bar bar-3" style="width: <%= @hotel.rate_three_per %>%;">
+                <p><%= (@hotel.rate_three_per*1.25).to_i %>%</p>
+              </div>
+          <% end %>
+          <div class="clearfix"></div>
+        </li>
+        <li>
+          <span> 2 </span>
+          <i class="fa fa-star" aria-hidden="true"></i>
+          <% if @hotel.rate_two_per.to_i==0 %>
+              <div class="bar bar-2">
+                <p>0%</p>
+              </div>
+          <% else %>
+              <div class="bar bar-2" style="width: <%= @hotel.rate_two_per %>%;">
+                <p><%= (@hotel.rate_two_per*1.25).to_i %>%</p>
+              </div>
+          <% end %>
+          <div class="clearfix"></div>
+        </li>
+        <li>
+          <span> 1 </span>
+          <i class="fa fa-star" aria-hidden="true"></i>
+          <% if @hotel.rate_one_per.to_i==0 %>
+              <div class="bar bar-1">
+                <p>0%</p>
+              </div>
+          <% else %>
+              <div class="bar bar-1" style="width: <%= @hotel.rate_one_per %>%;">
+                <p><%= (@hotel.rate_one_per*1.25).to_i %>%</p>
+              </div>
+          <% end %>
+          <div class="clearfix"></div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div id="reviews-hotel">
+    <div id="title-bt-new-review">
+      <div id="title-review-rl">
+        <h2 style="margin-top: 10px;">関連のレビュー</h1>
+      </div>
+      <div id="bt-new-review">
+        <%= link_to "新しいレビューを書く？", new_review_path, class: "myButton" %>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="all-review">
+      <section class="u-borderBox u-maxWidth1000 u-marginAuto u-marginTop30 u-marginBottom40 u-clearfix u-sm-paddingLeft20 u-sm-paddingRight20 u-xs-marginTop15 js-trackedTopic" data-scroll="native">
+        <header class="u-flexTop u-marginBottom25 u-borderBottomLighter js-topicSuggestionHeading">
+        <span class="heading-title
+              heading-title--lineHeightTight
+              u-flex0 u-block u-paddingBottom20
+              u-uiDisplayBold u-fontSize20
+              u-textColorDarker u-borderBottomNormal
+              u-marginBottomNegative1 u-xs-fontSize18">
+        </span>
+        </header>
+        <% if @reviews.any? %>
+            <%= render @reviews %>
+            <%= will_paginate @reviews %>
+        <% end %>
+      </section>
+    </div>
+  </div>
+</div>

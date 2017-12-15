@@ -1,0 +1,41 @@
+.notification-container {
+  width: 1000px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 999;
+
+
+  .notification {
+    position: absolute;
+    right: 0px;
+    background-color: #fff;
+
+    .notifi-detail{
+
+      width: 400px;
+      min-height: 350px;
+      max-height: 500px;
+      border-radius: 2px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+      .notification-item {
+        width: 400px;
+        height: 60px;
+        border-bottom: 1px solid #ccc;
+        overflow: hidden;
+        .notification-avatar-user {
+          width: 60px;
+          padding: 5px;
+          background-size: cover;
+          float: left;
+        }
+
+        .notification-info {
+          padding: 5px;
+          width: 340px;
+          float: left;
+        }
+      }
+    }
+  }
+
+}
