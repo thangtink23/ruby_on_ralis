@@ -1,0 +1,99 @@
+<head>
+  <style>
+    #customers {
+      font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    #customers td, #customers th {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+
+    #customers tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    #customers tr:hover {
+      background-color: #ddd;
+    }
+
+    #customers th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .bt-pending {
+      background-color: #555555;; /* Green */
+      border: none;
+      color: white;
+      padding: 8px 23px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .bt-accept {
+      background-color: #4CAF50; /* Green */
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+
+    .bt-delete {
+      background-color: #f44336; /* Green */
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<div style="width: 1200px; margin: 0 auto">
+  <% if @hotels.length > 0 %>
+      <table id="customers">
+        <tr>
+          <th width="180px">アバター</th>
+          <th>情報</th>
+          <th width="400px">説明</th>
+          <th width="120px">状態</th>
+          <% if user_signed_in? %>
+              <% if current_user.admin? %>
+                  <th>アクション</th>
+              <% end %>
+          <% end %>
+        </tr>
+        <% @hotels.each do |hotel| %>
+            <%= render 'check_hotel_item', hotel: hotel %>
+        <% end %>
+      </table>
+  <% else %>
+      <div>提案したホテルがない</div>
+  <% end %>
+</div>
+
+
+</body>
