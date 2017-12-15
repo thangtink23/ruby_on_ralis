@@ -1,0 +1,67 @@
+<% if hotel.avatar.blank? %>
+    <% image_url = "assets/review_hotel2.jpg" %>
+<% else %>
+    <% image_url = hotel.avatar.url() %>
+<% end %>
+
+<tr>
+  <td style="background-image: url('<%= image_url %>'); background-size: cover;">
+  </td>
+  <td width="280px">
+    <div><%= hotel.name %></div>
+    <div id="star-all-hotel" style="margin-top: 10px">
+      <span>Star:  </span>
+      <% for i in 0...5 %>
+          <% if i<hotel.star %>
+              <i class="fa fa-star fa-star-yellow"></i>
+          <% else %>
+              <i class="fa fa-star"></i>
+          <% end %>
+      <% end %>
+    </div>
+    <div id="tel-adress-all-hotel">
+      <div><span>アドレス: </span><%= hotel.address %></div>
+      <div><span>電話番号: </span>+<%= hotel.phone %></div>
+      <div><span>値段:</span> <%= hotel.min_price %>円 - <%= hotel.max_price %>円</div>
+    </div>
+  </td>
+  <td>
+    <div style="min-height: 220px"><%= hotel.description %></div>
+  </td>
+  <td>
+    <% if hotel.status == "pending" %>
+        <div class="bt-pending">Pending</div>
+    <% elsif hotel.status == "accept" %>
+        <div class="bt-pending" style="background-color: #4CAF50;">Accepted</div>
+    <% end %>
+  </td>
+  <% if user_signed_in? %>
+      <% if current_user.admin? %>
+          <td>
+            <% if hotel.status == "pending" %>
+                <div style="overflow: hidden">
+                  <div style="float:left">
+                    <%= form_for hotel, method: :patch do |f| %>
+                        <%= f.hidden_field :hotel_id, value: hotel.id %>
+                        <%= f.submit "Accept", class: "bt-accept" %>
+                    <% end %>
+                  </div>
+                  <div style="float: left">
+                    <%= form_for hotel, method: :delete do |f| %>
+                        <%= f.hidden_field :hotel_id, value: hotel.id %>
+                        <%= f.submit "Delete", class: "bt-delete", data: {confirm: "Are you sure?"} %>
+                    <% end %>
+                  </div>
+                </div>
+
+
+            <% elsif hotel.status == "accept" %>
+                <%= form_for hotel, method: :patch do |f| %>
+                    <%= f.hidden_field :hotel_id, value: hotel.id %>
+                    <%= f.submit "UnAccept", class: "bt-accept", style: 'background-color: #e7e7e7; color: black;' %>
+                <% end %>
+            <% end %>
+          </td>
+      <% end %>
+  <% end %>
+</tr>
