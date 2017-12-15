@@ -1,0 +1,14 @@
+<div id="boxchoice">
+  <a href="javascript:" id="bt-change-image"
+     class="button button--primary button--large button--withChrome is-active"
+     style="margin-left: 10px;">Change of Avatar</a>
+  <p style="clear:both"></p>
+  <%= form_for(:profile, url: user_profile_avatar_path(@user.id), remote: true) do |f|%>
+  <%= f.file_field :avatar, id: "uploadfile", onchange: "readURL(this);" %>
+  <%= f.submit "Upload", id: "bt-upload", style: "display: none;",
+               class: "button button--primary button--large button--withChrome is-active" %>
+  <a href="javascript:" id="bt-cancer"
+     class="button button--primary button--large button--withChrome is-active"
+     style="margin-left: 10px; display: none;">Cancer</a>
+  <% end %>
+</div>

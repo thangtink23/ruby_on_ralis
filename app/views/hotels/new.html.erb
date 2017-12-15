@@ -6,16 +6,16 @@
     <p class="su">ホテルを追加する</p>
     <%= form_for @hotel do |f| %>
         <%= render "partials/error_messages", object: @hotel %>
-        <%= f.text_field :name, autofocus: true, placeholder: "名前", class: "text-field" %>
-        <%= f.text_field :address, autofocus: true, placeholder: "アドレス", class: "text-field" %>
-        <%= f.text_field :phone, autofocus: true, placeholder: "電話番号", class: "text-field" %>
-        <%= f.text_area :description, autofocus: true, placeholder: "情報", class: "text-field" %>
-        <%= f.text_field :star, autofocus: true, placeholder: "スター", class: "text-field" %>
-        <%= f.text_field :min_price, value: nil, placeholder: "最低値段", class: "text-field" %>
-        <%= f.text_field :max_price, value: nil, placeholder: "最高値段", class: "text-field" %>
+        <%= f.text_field :name, autofocus: true, placeholder: "Name", class: "text-field" %>
+        <%= f.text_field :address, autofocus: true, placeholder: "Address", class: "text-field" %>
+        <%= f.text_field :phone, autofocus: true, placeholder: "Phone", class: "text-field" %>
+        <%= f.text_area :description, autofocus: true, placeholder: "Information", class: "text-field" %>
+        <%= f.text_field :star, autofocus: true, placeholder: "Star", class: "text-field" %>
+        <%= f.text_field :min_price, value: nil, placeholder: "Min Price", class: "text-field" %>
+        <%= f.text_field :max_price, value: nil, placeholder: "Max Price", class: "text-field" %>
         <%= f.file_field :avatar, autofocus: true %>
         <br>
-        <%= f.submit "追加する", class: "submit" %>
+        <%= f.submit "To Add", class: "submit" %>
     <% end %>
     <br>
 </body>

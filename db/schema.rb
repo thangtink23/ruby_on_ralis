@@ -37,9 +37,9 @@ ActiveRecord::Schema.define(version: 20171215084056) do
     t.string "address"
     t.integer "phone"
     t.text "description"
-    t.integer "star"
-    t.float "rate_sum"
-    t.integer "rate_count"
+    t.integer "star", default: 0
+    t.float "rate_sum", default: 0.0
+    t.integer "rate_count", default: 0
     t.string "avatar"
     t.float "max_price"
     t.float "min_price"
@@ -78,7 +78,8 @@ ActiveRecord::Schema.define(version: 20171215084056) do
     t.datetime "updated_at", null: false
     t.index ["followed_id"], name: "index_relationships_on_followed_id"
     t.index ["follower_id", "followed_id"], name: "index_relationships_on_follower_id_and_followed_id", unique: true
-    t.index ["follower_id"], name: "index_relationships_on_follower_id"
+    t.index ["follower_id"], name: "index_relationships_on_follower_id"=======
+
   end
 
   create_table "replies", force: :cascade do |t|
