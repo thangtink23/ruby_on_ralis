@@ -1,0 +1,46 @@
+<% create_at = hotel.created_at.to_time %>
+<% raw_content = hotel.description %>
+<% raw_content = raw_content.truncate(80).strip %>
+
+<div class="u-borderBox u-size6of12  u-paddingRight10 u-xs-paddingLeft0 u-xs-paddingRight0 u-xs-size12of12 js-trackedPost js-sectionItem" data-source="grid_home---8------0-50----------22d054b693da-----800691088" data-post-id="2b06b7f0bc8d" data-index="0" data-action-scope="_actionscope_18" data-scroll="native">
+  <div class="u-flex u-sizeFullWidth u-height260 u-sm-flexWrap u-xs-heightAuto u-borderBox u-marginBottom20 u-backgroundColorWhite u-overflowHidden u-relative u-borderRadius2 u-borderBlackLightest">
+    <div class="u-flex0 u-sizeFullHeight u-width200 u-sm-height100 u-sm-sizeFullWidth u-xs-height170">
+      <% if hotel.avatar.blank? %>
+          <a href="/hotels/<%= hotel.id %>" class="u-block u-backgroundSizeCover u-backgroundOriginBorderBox u-backgroundColorGrayLight u-sizeFullHeight" style="background-image: url('assets/review_hotel2.jpg'); background-position: 50% 50% !important;"></a>
+      <% else %>
+          <a href="/hotels/<%= hotel.id %>" class="u-block u-backgroundSizeCover u-backgroundOriginBorderBox u-backgroundColorGrayLight u-sizeFullHeight" style="background-image: url(<%= raw hotel.avatar %>); background-position: 50% 50% !important;"></a>
+      <% end %>
+    </div>
+    <div class="u-borderBox u-flexColumn u-padding20 u-flex1 u-overflowHidden u-sizeFull u-sm-height160 u-xs-heightAuto">
+      <div class="u-flex1 u-relative">
+        <div class="u-flexColumnTop u-flexWrap u-overflowHidden u-absolute0 u-xs-relative">
+          <div class="u-flex0 u-sizeFullWidth">
+            <a class="" href="/hotels/<%= hotel.id %>">
+              <h3 class="u-contentSansBold u-lineHeightTight u-fontSize18 u-sm-lineClamp2 u-sm-maxHeight2LineHeightTight">
+                <%= ActionView::Base.full_sanitizer.sanitize(hotel.name).truncate(80, separator: ' ') %>
+              </h3></a></div>
+          <a class="" href="/hotels/<%= hotel.id %>">
+            <h4 class="u-uiTextRegular u-textColorNormal u-marginTop5 u-letterSpacingNormal u-lineClamp5 u-maxHeight5LineHeightBase u-textOverflowEllipsis u-fontSize14">
+              <%= raw_content %>
+            </h4>
+          </a>
+        </div>
+      </div>
+      <div id="star-all-hotel">
+        <span>Star:  </span>
+        <% for i in 0...5 %>
+          <% if i<hotel.star %>
+            <i class="fa fa-star fa-star-yellow"></i>
+          <% else %>
+            <i class="fa fa-star"></i>
+          <% end %>
+        <% end %>
+      </div>
+      <div id="tel-adress-all-hotel">
+        <div><span>アドレス: </span><%= hotel.address %></div>
+        <div><span>電話番号: </span>+<%= hotel.phone %></div>
+        <div><span>値段:</span> <%= hotel.min_price%>円 - <%= hotel.max_price%>円</div>
+      </div>
+    </div>
+  </div>
+</div>

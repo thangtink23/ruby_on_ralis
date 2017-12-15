@@ -1,0 +1,208 @@
+<nav class="site-navigation" role="navigation" aria-label="Main Navigation">
+  <ul class="nav">
+    <li class="menu-item home-page">
+      <div style="margin-top: 5px;"><%= link_to "ホームページ"%></div>
+  </li>
+  <% if user_signed_in? %>
+  <% if current_user.admin? %>
+  <li class="menu-item-has-children">
+      <%= link_to "ホテル" %>
+      <ul class="sub-menu">
+        <li><%= link_to "すべてのホテル", hotels_path %></li>
+        <li><%= link_to "ホテルを作る", new_hotel_path %></li>
+        <li><%= link_to "ホテル管理", "/check_hotel" %></li>
+    </ul>
+</li>
+<% else %>
+<li class="menu-item-has-children">
+  <%= link_to "ホテル" %>
+  <ul class="sub-menu">
+    <li><%= link_to "すべてのホテル", hotels_path %></li>
+    <li><%= link_to "ホテルを作る", new_hotel_path %></li>
+    <li><%= link_to "提案したホテルの状態", "/check_hotel" %></li>
+</ul>
+</li>
+<% end %>
+<% else %>
+<li class="menu-item"><%= link_to "ホテル", hotels_path %></li>
+<% end %>
+
+<li class="menu-item">
+  <div class="inputGroup-icon u-marginTop5">
+    <span class="svgIcon svgIcon--search svgIcon--25px u-top0 u-baseColor--iconLight"
+    style="margin-right: -40px;">
+    <svg class="svgIcon-use" width="25" height="25" viewBox="0 0 25 25">
+        <path d="M20.067 18.933l-4.157-4.157a6 6 0 1 0-.884.884l4.157 4.157a.624.624 0 1 0 .884-.884zM6.5 11c0-2.62 2.13-4.75 4.75-4.75S16 8.38 16 11s-2.13 4.75-4.75 4.75S6.5 13.62 6.5 11z"></path>
+    </svg>
+</span>
+<input type="text" class="js-predictiveSearchInput textInput textInput--rounded textInput--darkText u-baseColor--textNormal textInput--transparent u-minWidth360"
+id="search"
+placeholder="ホテル名前、アドレス..."
+style="padding-left: 40px;">
+</div>
+</li>
+<% if user_signed_in? %>
+<li class="menu-item-has-children">
+  <a href="#fallback-page"><%= current_user.name.titleize %></a>
+  <ul class="sub-menu">
+      <% if current_user.admin? %>
+      <li><%= link_to "データ管理", '/admin' %></li>
+      <% end %>
+      <li><%= link_to "ブックマーク", '/bookmarks' %></li>
+      <li><%= link_to "プロフェール", user_profile_path(current_user.id) %></li>
+      <li><%= link_to "自分のレビュー", my_review_reviews_path %></li>
+      <li><%= link_to "レビューを作る", new_review_path %></li>
+      <li><%= link_to "パスワード編集", user_change_password_path %></li>
+      <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete %></li>
+  </ul>
+</li>
+<% else %>
+<li class="menu-item">
+  <%= link_to "サインイン", new_user_session_path %>
+</li>
+<li class="menu-iem">
+  <%= link_to "サインアップ", new_user_registration_path %>
+</li>
+<% end %>
+<% if user_signed_in? %>
+<% @notifications_stt_false = Notification.where(subscriber_id: current_user.id, status: 'false').order(created_at: :desc) %>
+<li class="menu-item" style="width: 40px;overflow: hidden">
+    <div class="bell fa fa-bell-o" style="margin-top: 13px; margin-left: 25px; font-size: 23px; float: left"></div>
+    <div class="notificaiton-count" style="float: left; margin-top: 13px "><span style="color: red;"><%= @notifications_stt_false.count %></span></div>
+</li>
+<% end %>
+</ul>
+</nav>
+
+<div class="notification-container" style="display: none;">
+    <% if user_signed_in? %>
+    <div class="notification">
+        <div class="notifi-detail">
+          <% if @notifications_stt_false.count >= 6 %>
+            <%= render @notifications_stt_false %>
+          <% else %>
+            <%= render @notifications_stt_false %>
+            <% count_notifi_stt_true = 6-@notifications_stt_false.count %>
+            <% @notifications_stt_true = Notification.where(subscriber_id: current_user.id, status: true).order(created_at: :desc).limit(count_notifi_stt_true) %>
+            <%= render @notifications_stt_true %>
+          <% end %>
+        </div>
+    </div>
+    <% end %>
+</div>
+
+<div class="form-submit-notifi" style="display: none">
+  <%= form_for Notification.new, do |f| %>
+    <%= f.hidden_field :subscriber_id, value: 1%>
+    <%= f.submit 'submit',class: 'bt-submit-notifi'%>
+  <% end %>
+</div>
+
+<script>
+    // Using jQuery because WordPress already has it
+    (function ($) {
+        var $allMenus = $('.menu-item-has-children');
+        var $allToggles = $allMenus.find('> a');
+        var $allTopLinks = $('.nav > li > a');
+
+        var hoverTimer, blurTimer,
+        delay = 500;
+
+        // Reusable functions
+        function openMenu($current) {
+            $allToggles.attr('aria-expanded', 'false');
+            $current.attr('aria-expanded', 'true');
+        }
+
+        function closeMenu($current) {
+            $current.attr('aria-expanded', 'false');
+        }
+
+        function focusSubmenu($current) {
+            $current.on('transitionend', function () {
+                if ($current.css('visibility') === 'visible') {
+                    $current.find('li:first-child a').focus();
+                    $current.off('transitionend');
+                }
+            });
+        }
+
+        // Add aria roles
+        $('.menu-item.active > a').attr('aria-current', 'page');
+        $allToggles.attr({
+            'aria-haspopup': 'true',
+            'aria-expanded': 'false',
+            'role': 'button',
+        });
+
+        // Open menu on hover
+        $allMenus.on('mouseenter', function (e) {
+            openMenu($(this).find('[aria-expanded]'));
+
+            clearTimeout(hoverTimer);
+        });
+
+        // Close menu after a short delay
+        $allMenus.on('mouseleave', function () {
+            var $element = $(this).find('[aria-expanded]');
+
+            hoverTimer = setTimeout(function () {
+                closeMenu($element);
+            }, delay);
+        });
+
+        // Toggle menu on click, tap, or focus + enter/space
+        $allToggles
+        .on('click touchstart', function (e) {
+            var $this = $(this);
+            var $submenu = $this.next('.sub-menu');
+
+            if ($this.attr('aria-expanded') === 'true') closeMenu($this);
+            else openMenu($this);
+
+            focusSubmenu($submenu);
+
+            e.preventDefault();
+        })
+        .on('keyup', function (e) {
+            if (e.keyCode === 32) {
+                openMenu($(this));
+                focusSubmenu($(this).next('.sub-menu'));
+            }
+        });
+
+        // Close menu when refocusing on top-level links
+        $allTopLinks.on('focus', function () {
+            closeMenu($allToggles);
+        });
+
+        // Close menu on esc and focus loss
+        $('.site-navigation').on('keyup', function (e) {
+            if (e.keyCode === 27) closeMenu($allToggles);
+        });
+
+        // Close menu if focus isn't inside site navigation
+        $('.sub-menu').on('focusout', function () {
+            // There's a delay between focusout and re-focus
+            setTimeout(function () {
+                var $focused = $(document.activeElement);
+                if ($focused.closest('.site-navigation').length === 0) {
+                    closeMenu($allToggles);
+                }
+            }, 1);
+        });
+
+    })(jQuery);
+</script>
+
+<script>
+  $(".home-page").click(function (){
+    window.location = ("/");
+})
+  $(".bell").click(function() {
+    $(".bt-submit-notifi").click();
+    $(".notificaiton-count").hide();
+    $('.bell').css('color', 'red');
+    $(".notification-container").toggle();
+  })
+</script>
