@@ -1,0 +1,188 @@
+<script src="http://code.jquery.com/jquery.min.js" type="text/javascript"></script>
+<div id="container-profile">
+  <div class="avatar-info">
+    <div class="avatar">
+      <% if @user.avatar.blank? %>
+      <%= image_tag "/no_avatar.jpg", id: "avatar-image" %>
+      <% else %>
+      <%= image_tag @user.avatar.url, id: "avatar-image" %>
+      <% end %>
+    </div>
+    <div class="name-follow" style="width: 200px">
+      <p id="name"><%= @user.name.titleize %></p>
+      <% if current_user != nil and not current_user? @user %>
+      <%= render 'follow_form' %>
+      <% end %>
+      <div class="follow-detail">
+        <strong id="following-detail">
+          <%= @user.following.count %>
+        </strong>
+        Following
+        <strong id="followers-detail">
+          <%= @user.followers.count %>
+        </strong>
+        Followers
+      </div>
+    </div>
+    <div class="info">
+      <div class="info-name">
+        <ul>
+          <li><span>メール:</span></li>
+          <li><span>誕生日:</span></li>
+          <li><span>電話番号:</span> </li>
+          <li><span>アドレス:</span> </li>
+        </ul>
+      </div>
+      <div class="info-value">
+        <ul>
+          <li><%= @user.email %></li>
+          <li><%= @user.birth_day %></li>
+          <li><%= @user.phone %></li>
+          <li><%= @user.address %></li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+  <% if current_user? @user %>
+  <div class="change-avatar-info">
+    <div id="change-avatar">
+      <%= render "form_change_avatar", id: "render-form" %>
+    </div>
+    <div id="change-info">
+      <%= link_to "ユーザの編集", edit_user_registration_path, id: "bt-change-info",
+                  class: "button button--primary  button--large button--withChrome is-active" %>
+    </div>
+  </div>
+  <% end %>
+  <!-- tab review , following, folloers detail -->
+  <div class="nav-container">
+    <navbar>
+      <div class="navbar-inverse tabs paper-shadow-bottom-z-2">
+        <div class="container-fluid">
+          <ul class="navbar-body">
+            <li class="active-tab" onclick="openTab('Reviews')"><a class="active-tab">レビュー</a></li>
+            <li onclick="openTab('Following')"><a>フォロー</a></li>
+            <li onclick="openTab('Followers')"><a>フォローワー</a></li>
+          </ul>
+        </div>
+      </div>
+    </navbar>
+  </div>
+
+  <div class="tab-review-follow">
+    <div id="Reviews" class="tab" style="display: none">
+      <section class="u-borderBox u-marginAuto u-marginTop30 u-marginBottom40 u-clearfix u-paddingLeft20 u-paddingRight20 u-xs-marginTop15 js-trackedTopic" data-scroll="native">
+        <% if @reviews.any? %>
+            <%= render @reviews %>
+            <%= will_paginate @reviews %>
+        <% end %>
+      </section>
+    </div>
+
+    <div id="Following" class="w3-container tab" >
+      <div class="total-following"></div>
+      <section class="u-borderBox u-marginAuto u-marginTop30 u-marginBottom40 u-clearfix u-paddingLeft20 u-paddingRight20 u-xs-marginTop15 js-trackedTopic" data-scroll="native">
+        <%= render @user.following %>
+      </section>
+    </div>
+
+    <div id="Followers" class="w3-container tab" style="display:none">
+      <div class="total-following"></div>
+      <section class="u-borderBox u-marginAuto u-marginTop30 u-marginBottom40 u-clearfix u-paddingLeft20 u-paddingRight20 u-xs-marginTop15 js-trackedTopic" data-scroll="native">
+        <%= render @user.followers %>
+      </section>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function  readURL(input,thumbimage) {
+   if  (input.files && input.files[0]) {
+     var  reader = new FileReader();
+     reader.onload = function (e) {
+      $("#avatar-image").attr('src', e.target.result);
+    }
+    reader.readAsDataURL(input.files[0]);
+  }
+  $("#avatar-image").show();
+  // $('#bt-change-image').css('cursor', 'progress');
+  $("#bt-change-image").hide();
+  $("#bt-upload").show();
+  $("#bt-cancer").show();
+  $("#bt-change-image").unbind('click');
+
+  }
+  $(document).ready(function () {
+    //Chọn file khi .Choicefile Click
+   $("#bt-change-image").bind('click', function  () {
+    $("#uploadfile").click();
+  });
+
+   $("#bt-upload").click(function () {
+    $("#bt-upload").hide();
+    $("#bt-cancer").hide();
+    $("#bt-change-image").show();
+    //Tạo lại sự kiện click để chọn file
+      $("#bt-change-image").bind('click', function  () {
+        $("#uploadfile").click();
+      });
+    });
+
+    //Xóa hình  ảnh đang xem
+   $("#bt-cancer").click(function () {
+    $("#bt-cancer").hide();
+    $("#bt-upload").hide();
+    $("#bt-change-image").show();
+    //Tạo lại sự kiện click để chọn file
+      $("#bt-change-image").bind('click', function  () {
+       $("#uploadfile").click();
+     });
+      $('#bt-change-image').css('cursor', 'pointer');
+    });
+ })
+</script>
+
+<script>
+  function openTab(tabName) {
+    var i;
+    var x = document.getElementsByClassName("tab");
+    for (i = 0; i < x.length; i++) {
+     x[i].style.display = "none";
+   }
+   document.getElementById(tabName).style.display = "block";
+ }
+</script>
+
+<script>
+/*Tab Highlighter Functionality*/
+$(document).on('click', 'navbar .tabs ul.navbar-body li a', function(){
+    var $this = $(this);
+    TabHighlighter.set($this);
+    $this.closest('li').siblings('.active-tab').removeClass('active-tab');
+    $this.closest('li').addClass('active-tab');
+});
+var TabHighlighter = {
+    set: function($this){
+        $('.tab-highlighter').css({
+            'left':  $this.closest('li').offset().left,
+            'width': $this.closest('li').outerWidth()
+        });
+    },
+    refresh: function(){
+        var $this = $('.tabs ul.navbar-body li.active-tab a');
+        $('.tab-highlighter').css({
+            'left':  $this.closest('li').offset().left,
+            'width': $this.closest('li').outerWidth()
+        });
+    }
+};
+$(window).resize(function(){
+    TabHighlighter.refresh();
+});
+$(document).ready(function(){
+    TabHighlighter.refresh();
+    openTab('Reviews');
+});
+
+</script>
