@@ -37,9 +37,9 @@ ActiveRecord::Schema.define(version: 20171214175414) do
     t.string "address"
     t.integer "phone"
     t.text "description"
-    t.integer "star"
-    t.float "rate_sum"
-    t.integer "rate_count"
+    t.integer "star", default: 0
+    t.float "rate_sum", default: 0.0
+    t.integer "rate_count", default: 0
     t.string "avatar"
     t.float "max_price"
     t.float "min_price"
