@@ -91,12 +91,12 @@ style="padding-left: 40px;">
     <% end %>
 </div>
 
-<div class="form-submit-notifi" style="display: none">
-  <%= form_for Notification.new, do |f| %>
-    <%= f.hidden_field :subscriber_id, value: current_user.id %>
-    <%= f.submit 'submit',class: 'bt-submit-notifi'%>
-  <% end %>
-</div>
+<!-- <div class="form-submit-notifi" style="display: none">
+  <%# form_for Notification.new, do |f| %>
+    <%# f.hidden_field :subscriber_id, value: current_user.id %>
+    <%# f.submit 'submit',class: 'bt-submit-notifi'%>
+  <% #end %>
+</div> -->
 
 <script>
     // Using jQuery because WordPress already has it

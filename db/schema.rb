@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171215084056) do
+ActiveRecord::Schema.define(version: 20171216085138) do
 
   create_table "bookmarks", force: :cascade do |t|
     t.text "content"
@@ -41,10 +41,12 @@ ActiveRecord::Schema.define(version: 20171215084056) do
     t.float "rate_sum", default: 0.0
     t.integer "rate_count", default: 0
     t.string "avatar"
-    t.float "max_price"
-    t.float "min_price"
+    t.float "max_price", default: 0.0
+    t.float "min_price", default: 0.0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "status", default: "pending"
+    t.integer "user_id", default: 1
   end
 
   create_table "likes", force: :cascade do |t|
@@ -56,14 +58,8 @@ ActiveRecord::Schema.define(version: 20171215084056) do
     t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
-  create_table "notifications", force: :cascade do |t|
-    t.integer "subscriber_id"
-    t.integer "notifi_user_id"
-    t.string "action"
-    t.string "message"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+# Could not dump table "notifications" because of following StandardError
+#   Unknown type 'reference' for column 'review'
 
   create_table "pictures", force: :cascade do |t|
     t.string "photo"
@@ -73,9 +69,12 @@ ActiveRecord::Schema.define(version: 20171215084056) do
 
   create_table "relationships", force: :cascade do |t|
     t.integer "follower_id"
-    t.integer "follwed_id"
+    t.integer "followed_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["followed_id"], name: "index_relationships_on_followed_id"
+    t.index ["follower_id", "followed_id"], name: "index_relationships_on_follower_id_and_followed_id", unique: true
+    t.index ["follower_id"], name: "index_relationships_on_follower_id"
   end
 
   create_table "replies", force: :cascade do |t|
