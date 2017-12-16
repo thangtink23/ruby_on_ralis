@@ -9,8 +9,8 @@ class CreateHotels < ActiveRecord::Migration[5.1]
       t.float :rate_sum, default: 0
       t.integer :rate_count, default: 0
       t.string :avatar
-      t.float :max_price
-      t.float :min_price
+      t.float :max_price, default: 0
+      t.float :min_price, default: 0
 
       t.timestamps
     end
